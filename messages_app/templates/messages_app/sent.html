@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sent Messages</title>
+</head>
+<body>
+
+<h1>Sent Messages</h1>
+
+<p>
+    <a href="/messages/new/">New Message</a> |
+    <a href="/messages/inbox/">Inbox</a> |
+    <a href="/messages/drafts/">Drafts</a>
+</p>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>
+                <strong>{{ message.subject }}</strong><br>
+                To: {{ message.recipient.username }}<br>
+                {{ message.content }}<br>
+                Sent: {{ message.time_created }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No sent messages.</p>
+{% endif %}
+
+</body>
+</html>
