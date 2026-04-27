@@ -1,0 +1,92 @@
+
+:root {
+    --sky-blue: #00a3e0;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+/* Top navbar - in the Sky style outlined in high fidelity*/
+.sky-navbar {
+    background: linear-gradient(90deg, #00a3e0, #0055a5);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sky-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #ff0000, #00a3e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #ffffff;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 240px;
+}
+
+.nav-link {
+    color: #333;
+    padding: 12px 20px;
+    border-radius: 0;
+    margin: 4px 8px;
+}
+
+.nav-link.active {
+    background-color: #e6f0fa;
+    color: #0055a5;
+    font-weight: 600;
+}
+
+.nav-link:hover {
+    background-color: #f0f4f9;
+}
+
+/* Main content area */
+.main-content {
+    margin-left: 240px;
+    padding-top: 70px;
+}
+
+.team-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgb(0 163 224 / 0.15);
+}
+
+.team-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #00a3e0, #0055a5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 1.75rem;
+}
+
+.dependency-badge {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+}
+
+.search-input {
+    border-radius: 50px;
+    padding-left: 45px;
+}
