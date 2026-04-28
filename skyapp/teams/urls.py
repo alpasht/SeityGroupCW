@@ -1,9 +1,7 @@
-from django.contrib import admin
 from django.urls import path
-from skyapp.TEAMSPAGE import views
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     
     # Teams related URLs

@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 class SkyappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'TEAMSPAGE'
+    name = 'skyapp.teams'
