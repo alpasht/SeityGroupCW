@@ -1,12 +1,14 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from skyapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'), 
     path('teams/', views.teams, name='teams'),
+    path('reports/', include('reports.urls')),
+    
     
     # Placeholder URLs to ensure teams.html can render without NoReverseMatch errors
     path('dashboard/', views.dummy_view, name='dashboard'),
