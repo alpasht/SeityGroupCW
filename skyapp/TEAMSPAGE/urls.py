@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from skyapp import views
+from skyapp.TEAMSPAGE import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),

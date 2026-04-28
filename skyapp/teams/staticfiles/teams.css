@@ -78,10 +78,6 @@ body {
     height: 100%;
 }
 
-.team-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 25px 35px -10px rgba(0, 163, 224, 0.25);
-}
 
 .team-icon {
     width: 60px;

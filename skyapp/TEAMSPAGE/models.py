@@ -9,10 +9,10 @@ class Team(models.Model):
     skills = models.CharField(max_length=255, help_text="Comma separated skills", blank=True, null=True)
     upstream_count = models.IntegerField(default=0)
     downstream_count = models.IntegerField(default=0)
-
+    
     def get_skills_list(self):
         if self.skills:
-            return [s.strip() for s in self.skills.split(',')]
+            return [s.strip() for s in self.skills.split(',') if s.strip()]
         return []
 
     def __str__(self):
