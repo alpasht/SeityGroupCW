@@ -58,7 +58,7 @@
             <tbody>
                 {% for team in all_teams %}
                 <tr>
-                    <td>{{ team.team_name }}</td>
+                    <td>{{ team.name }}</td>
                     <td>{{ team.manager|default:"No manager assigned" }}</td>
                 </tr>
                 {% empty %}
@@ -82,7 +82,7 @@
             <div class="card-body">
                 <ul class="list-group">
                     {% for team in teams_without_managers %}
-                        <li class="list-group-item">{{ team.team_name }}</li>
+                        <li class="list-group-item">{{ team.name }}</li>
                     {% empty %}
                         <li class="list-group-item">None</li>
                     {% endfor %}
@@ -99,7 +99,7 @@
             <div class="card-body">
                 <ul class="list-group">
                     {% for team in teams_with_manager %}
-                        <li class="list-group-item">{{ team.team_name }} - {{ team.manager }}</li>
+                        <li class="list-group-item">{{ team.name }} - {{ team.manager }}</li>
                     {% empty %}
                         <li class="list-group-item">None</li>
                     {% endfor %}
