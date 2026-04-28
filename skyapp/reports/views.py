@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Team
+from skyapp.teams.models import Team
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from openpyxl import Workbook
@@ -40,7 +40,7 @@ def export_pdf(request):
     for team in teams:
         y -= 20
         manager = team.manager if team.manager else "No manager"
-        p.drawString(100, y, f"{team.team_name} - {manager}")
+        p.drawString(100, y, f"{team.name} - {manager}")
 
     p.showPage()
     p.save()
@@ -60,7 +60,7 @@ def export_excel(request): #Generates excel report which has the team names and 
 
     for team in teams: #Adds team data to spreadsheet.
         manager = team.manager if team.manager else "No manager"
-        ws.append([team.team_name, manager])
+        ws.append([team.name, manager])
 
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
