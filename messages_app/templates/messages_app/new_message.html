@@ -7,10 +7,19 @@
 
 <h1>Send New Message</h1>
 
+<p>
+    <a href="/messages/new/">New Message</a> |
+    <a href="/messages/inbox/">Inbox</a> |
+    <a href="/messages/sent/">Sent</a> |
+    <a href="/messages/drafts/">Drafts</a>
+</p>
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Send</button>
+
+    <button type="submit" name="send">Send Message</button>
+    <button type="submit" name="draft">Save as Draft</button>
 </form>
 
 </body>

@@ -10,8 +10,16 @@ def new_message(request):
         if form.is_valid():
             message = form.save(commit=False)
             message.sender = request.user
-            message.save()
-            return redirect('sent_messages')
+
+            if 'send' in request.POST:
+                message.status = 'sent'
+                message.save()
+                return redirect('sent_messages')
+
+            elif 'draft' in request.POST:
+                message.status = 'draft'
+                message.save()
+                return redirect('drafts')
 
     else:
         form = MessageForm()

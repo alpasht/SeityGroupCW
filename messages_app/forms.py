@@ -5,4 +5,4 @@ from .models import Message
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['subject', 'content', 'recipient', 'status']
+        fields = ['subject', 'content', 'recipient']

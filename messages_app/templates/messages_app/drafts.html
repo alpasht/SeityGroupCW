@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sent Messages</title>
+    <title>Draft Messages</title>
 </head>
 <body>
 
-<h1>Sent Messages</h1>
+<h1>Draft Messages</h1>
 
 <p>
     <a href="/messages/new/">New Message</a> |
@@ -19,15 +19,21 @@
         {% for message in messages %}
             <li>
                 <strong>{{ message.subject }}</strong><br>
-                To: {{ message.recipient.username }}<br>
+                To: 
+                {% if message.recipient %}
+                    {{ message.recipient.username }}
+                {% else %}
+                    No recipient selected
+                {% endif %}
+                <br>
                 {{ message.content }}<br>
-                Sent: {{ message.time_created }}
+                Last updated: {{ message.time_updated }}
             </li>
             <hr>
         {% endfor %}
     </ul>
 {% else %}
-    <p>No sent messages.</p>
+    <p>No draft messages.</p>
 {% endif %}
 
 </body>
