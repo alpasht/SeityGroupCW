@@ -1,113 +1,132 @@
-{% extends "reports/base.html" %}
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reports Dashboard - Sky Engineering Portal{% endblock %}
 
 {% block content %}
-
-<h2 class="mb-4">Reports Dashboard</h2>
+<div class="mb-4">
+    <h1 class="h3 fw-bold">Reports Dashboard</h1>
+</div>
 
 <!-- Summary Section -->
-<h4 class="mb-3">Summary</h4>
-
-<div class="row mb-4">
-
+<div class="row g-4 mb-4">
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-body">
-                <h6>Total Teams</h6>
-                <h2>{{ total_teams }}</h2>
+        <div class="card border-0 shadow-sm text-center h-100">
+            <div class="card-body p-4">
+                <div class="text-muted small mb-1 uppercase fw-bold">Total Teams</div>
+                <h2 class="display-6 fw-bold mb-0 text-primary">{{ total_teams }}</h2>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-body">
-                <h6>Teams With Managers</h6>
-                <h2>{{ teams_with_manager|length }}</h2>
+        <div class="card border-0 shadow-sm text-center h-100">
+            <div class="card-body p-4">
+                <div class="text-muted small mb-1 uppercase fw-bold">Teams With Managers</div>
+                <h2 class="display-6 fw-bold mb-0 text-success">{{ teams_with_manager|length }}</h2>
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="card shadow-sm text-center">
-            <div class="card-body">
-                <h6>Teams Without Managers</h6>
-                <h2>{{ teams_without_managers|length }}</h2>
+        <div class="card border-0 shadow-sm text-center h-100">
+            <div class="card-body p-4">
+                <div class="text-muted small mb-1 uppercase fw-bold">Teams Without Managers</div>
+                <h2 class="display-6 fw-bold mb-0 text-warning">{{ teams_without_managers|length }}</h2>
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Export Buttons -->
-<div class="mb-3">
-    <a href="/reports/pdf/" class="btn btn-primary me-2">Download PDF</a>
-    <a href="/reports/excel/" class="btn btn-success">Download Excel</a>
+<div class="d-flex gap-2 mb-4">
+    <a href="{% url 'export_pdf' %}" class="btn btn-outline-danger">
+        <i class="bi bi-file-pdf me-1"></i> Export PDF
+    </a>
+    <a href="{% url 'export_excel' %}" class="btn btn-outline-success">
+        <i class="bi bi-file-excel me-1"></i> Export Excel
+    </a>
 </div>
 
 <!-- All Teams Table -->
-<div class="card shadow-sm mb-4">
-    <div class="card-header">All Teams</div>
-    <div class="card-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Team Name</th>
-                    <th>Manager</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for team in all_teams %}
-                <tr>
-                    <td>{{ team.team_name }}</td>
-                    <td>{{ team.manager|default:"No manager assigned" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="2">No teams found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header py-3">
+        <h5 class="mb-0 fw-bold">All Teams Overview</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-3">Team Name</th>
+                        <th class="px-4 py-3">Manager</th>
+                        <th class="px-4 py-3 text-end">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for team in all_teams %}
+                    <tr>
+                        <td class="px-4 py-3 fw-medium">{{ team.team_name }}</td>
+                        <td class="px-4 py-3 text-muted">{{ team.manager|default:"No manager assigned" }}</td>
+                        <td class="px-4 py-3 text-end">
+                            {% if team.manager %}
+                            <span class="badge bg-success-subtle text-success px-2 py-1">Assigned</span>
+                            {% else %}
+                            <span class="badge bg-warning-subtle text-warning px-2 py-1">Unassigned</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center py-5 text-muted">No teams found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <!-- Detailed Team Manager Status -->
-<div class="row">
-
+<div class="row g-4">
     <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-warning">
-                Teams Without Managers
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header py-3">
+                <h6 class="mb-0 fw-bold text-warning">Attention: Unassigned Teams</h6>
             </div>
             <div class="card-body">
-                <ul class="list-group">
+                <div class="list-group list-group-flush">
                     {% for team in teams_without_managers %}
-                    <li class="list-group-item">{{ team.team_name }}</li>
+                    <div class="list-group-item px-0 py-2 border-0 d-flex justify-content-between align-items-center">
+                        <span>{{ team.team_name }}</span>
+                        <i class="bi bi-exclamation-triangle text-warning"></i>
+                    </div>
                     {% empty %}
-                    <li class="list-group-item">None</li>
+                    <div class="text-center text-muted py-3">All teams have managers.</div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-success text-white">
-                Teams With Managers
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header py-3">
+                <h6 class="mb-0 fw-bold text-success">Managed Teams</h6>
             </div>
             <div class="card-body">
-                <ul class="list-group">
+                <div class="list-group list-group-flush">
                     {% for team in teams_with_manager %}
-                    <li class="list-group-item">{{ team.team_name }} - {{ team.manager }}</li>
+                    <div class="list-group-item px-0 py-2 border-0 d-flex justify-content-between align-items-center">
+                        <span>{{ team.team_name }}</span>
+                        <span class="text-muted small">{{ team.manager }}</span>
+                    </div>
                     {% empty %}
-                    <li class="list-group-item">None</li>
+                    <div class="text-center text-muted py-3">No managed teams found.</div>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
-
 {% endblock %}
