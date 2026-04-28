@@ -28,15 +28,27 @@ def new_message(request):
 
 
 def inbox(request):
-    messages = Message.objects.filter(recipient=request.user, status='sent').order_by('-time_created')
+    messages = Message.objects.filter(
+        recipient=request.user,
+        status='sent'
+    ).order_by('-time_created')
+
     return render(request, 'messages_app/inbox.html', {'messages': messages})
 
 
 def sent_messages(request):
-    messages = Message.objects.filter(sender=request.user, status='sent').order_by('-time_created')
+    messages = Message.objects.filter(
+        sender=request.user,
+        status='sent'
+    ).order_by('-time_created')
+
     return render(request, 'messages_app/sent.html', {'messages': messages})
 
 
 def drafts(request):
-    messages = Message.objects.filter(sender=request.user, status='draft').order_by('-time_created')
+    messages = Message.objects.filter(
+        sender=request.user,
+        status='draft'
+    ).order_by('-time_updated')
+
     return render(request, 'messages_app/drafts.html', {'messages': messages})
