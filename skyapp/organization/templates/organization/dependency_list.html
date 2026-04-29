@@ -1,0 +1,18 @@
+<!--
+Author: Mohammed Yousuf Moghal
+Student ID: w2073928
+Module: Organisation Module
+File: dependency_list.html
+
+--><h1>Team Dependencies</h1>
+
+<ul>
+    {% for dep in dependencies %}
+        <li>
+            <strong>{{ dep.from_team.name }}</strong>
+            →
+            <strong>{{ dep.to_team.name }}</strong>
+            ({{ dep.dependency_type }})
+        </li>
+    {% endfor %}
+</ul>
