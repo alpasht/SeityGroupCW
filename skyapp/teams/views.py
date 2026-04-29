@@ -5,6 +5,7 @@ from django.http import HttpResponse
 # ===================== IMPROVED MOCK TEAM CLASS =====================
 class MockTeam:
     def __init__(self, id, name, department, manager, email, size, skills,
+                 purpose="", description="",
                  upstream_count=0, downstream_count=0,
                  members=None, upstream_list=None, downstream_list=None,
                  repositories=None):
@@ -16,6 +17,8 @@ class MockTeam:
         self.manager_email = email
         self.members_count = size
         self.skills = skills
+        self.purpose = purpose
+        self.description = description
         self.upstream_count = upstream_count
         self.downstream_count = downstream_count
         
@@ -37,43 +40,52 @@ def get_mock_teams():
             id=1,
             name="Platform Engineering",
             department="Platform",
-            manager="Sarah Chen",
-            email="sarah.chen@sky.uk",
+            manager="Olivia Carter",
+            email="olivia.carter@sky.uk",
             size=12,
-            skills="Kubernetes, AWS, Terraform, Go",
+            skills="AWS, GCP, Terraform, Kubernetes",
+            purpose="Provide reliable, scalable infrastructure for all Sky engineering teams.",
+            description="Building and maintaining Sky's core platform infrastructure.",
             upstream_count=5,
             downstream_count=8,
-            upstream_list=["User API", "Database Team"],
-            downstream_list=["Content Delivery", "Streaming Services"],
+            members=["Sarah Chen", "James Patel", "Emma Thompson", "Michael Rodriguez"],
+            upstream_list=["Identity Platform", "Database Services"],
+            downstream_list=["Content Delivery", "API Gateway"],
             repositories=["sky-platform-k8s", "terraform-provider-sky"]
         ),
         MockTeam(
             id=2,
-            name="Content Delivery",
-            department="Content",
-            manager="Marcus Thorne",
-            email="marcus.thorne@sky.uk",
+            name="Cloud Hosting",
+            department="Cloud",
+            manager="Elijah Parker",
+            email="elijah.parker@sky.uk",
             size=8,
-            skills="CDN, Varnish, Nginx, Python",
+            skills="AWS Lambda, API Gateway, Microservices, GraphQL, Node.js, Go",
+            purpose="Manage and scale cloud compute and hosting environments.",
+            description="Providing serverless and containerized hosting solutions.",
             upstream_count=3,
             downstream_count=12,
+            members=["Daniel Kim", "Sophie Turner", "Lucas Grey"],
             upstream_list=["Platform Engineering"],
-            downstream_list=["Streaming Services", "Mobile Apps"],
-            repositories=["sky-cdn-core", "varnish-config"]
+            downstream_list=["Mobile Apps", "Web Frontend"],
+            repositories=["sky-cloud-hosting", "serverless-configs"]
         ),
         MockTeam(
             id=3,
-            name="Streaming Services",
-            department="Streaming",
-            manager="Elena Rodriguez",
-            email="elena.rodriguez@sky.uk",
+            name="API Development",
+            department="Backend",
+            manager="Henry Ward",
+            email="henry.ward@sky.uk",
             size=15,
-            skills="Video Transcoding, HLS, DASH, Rust",
+            skills="OAuth, JWT, Postman, OpenAPI, Swagger, REST, gRPC",
+            purpose="Design and implement core internal and external APIs.",
+            description="Building secure and high-performance API endpoints.",
             upstream_count=7,
             downstream_count=4,
-            upstream_list=["Content Delivery", "Platform Engineering"],
-            downstream_list=["Analytics Team"],
-            repositories=["sky-streaming-core", "hls-pipeline"]
+            members=["Oliver Smith", "Mia Johnson", "Jack Brown", "Amelia Davis"],
+            upstream_list=["Cloud Hosting", "Database Services"],
+            downstream_list=["Mobile Apps", "Partner Integrations"],
+            repositories=["sky-core-api", "grpc-definitions"]
         ),
     ]
 
