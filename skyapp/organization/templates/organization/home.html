@@ -483,11 +483,11 @@ File: home.html
         <div class="logo">
             <img src="{% static 'organization/images/skylogo.png' %}" alt="Sky Logo">
         </div>
-        <div class="nav-item">Dashboard</div>
-        <div class="nav-item">Teams</div>
-        <div class="nav-item active">Organisation</div>
-        <div class="nav-item">Messages</div>
-        <div class="nav-item">Schedule</div>
+        <a href="{% url 'dashboard' %}" class="nav-item text-decoration-none d-block">Dashboard</a>
+        <a href="{% url 'teams' %}" class="nav-item text-decoration-none d-block">Teams</a>
+        <a href="{% url 'organisation' %}" class="nav-item active text-decoration-none d-block">Organisation</a>
+        <a href="{% url 'messages' %}" class="nav-item text-decoration-none d-block">Messages</a>
+        <a href="{% url 'schedule' %}" class="nav-item text-decoration-none d-block">Schedule</a>
     </div>
 
     <div class="main">
@@ -545,7 +545,7 @@ File: home.html
                 <h3 class="map-title">Teams</h3>
                 <div class="section-row team-section">
                     {% for team in teams %}
-                        <a href="{% url 'team_detail' team.id %}" class="team-card-link">
+                        <a href="{% url 'org_team_detail' team.id %}" class="team-card-link">
                             <div class="org-node team-node"
                                 id="team-{{ team.id }}"
                                 data-team-id="{{ team.id }}">

@@ -11,7 +11,7 @@ urlpatterns = [
     
     # Placeholder URLs
     path('dashboard/', views.dummy_view, name='dashboard'),
-    path('organisation/', views.dummy_view, name='organisation'),
+    path('organisation/', include('skyapp.organization.urls')),
     path('messages/', views.dummy_view, name='messages'),
     path('schedule/', include('skyapp.schedule.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
