@@ -6,7 +6,7 @@
 
 from django.db import models
 
-# Stores department information
+# Stores department information.
 class Department(models.Model):
     name = models.CharField(max_length=100)
     leader = models.CharField(max_length=100)
@@ -16,7 +16,7 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-# Stores info on reusable team categories 
+# Stores info on reusable team categories. 
 class TeamType(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -24,7 +24,7 @@ class TeamType(models.Model):
     def __str__(self):
         return self.name
 
-# Stores the teams records linked to departments
+# Stores the teams records linked to departments.
 class Team(models.Model):
     name = models.CharField(max_length=100)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
@@ -37,7 +37,7 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
-# Stores relationships between the teams (upstream/downstream)
+# Stores relationships between the teams (upstream/downstream).
 class Dependency(models.Model):
     DEPENDENCY_TYPES = [
         ('upstream', 'Upstream'),
