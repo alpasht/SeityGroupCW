@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'skyapp.reports',
     'skyapp.schedule',
     'skyapp.organization',
+    'skyapp.messages_app',
 ]
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ urlpatterns = [
     # Placeholder URLs
     path('dashboard/', views.dummy_view, name='dashboard'),
     path('organisation/', include('skyapp.organization.urls')),
-    path('messages/', views.dummy_view, name='messages'),
+    path('messages/', include('skyapp.messages_app.urls'), name='messages'),
     path('schedule/', include('skyapp.schedule.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('reports/', include('skyapp.reports.urls')),
