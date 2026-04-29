@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path, include
 from . import views
 
@@ -10,10 +11,11 @@ urlpatterns = [
     path('teams/create/', views.team_create, name='team_create'),
     path('teams/<int:id>/', views.team_detail, name='team_detail'),
     path('organisation/', include('skyapp.organization.urls')),
+    path('organization/', include('skyapp.organization.urls')),
     path('messages/', include('skyapp.messages_app.urls'), name='messages'),
     path('schedule/', include('skyapp.schedule.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('reports/', include('skyapp.reports.urls')),
-
-
+    path('admin/', admin.site.urls),
+    
 ]
