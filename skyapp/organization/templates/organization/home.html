@@ -1,43 +1,9 @@
-<!--
-Author: Mohammed Yousuf Moghal
-Student ID: w2073928
-Module: Organisation Module
-File: home.html
--->
-
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Organization Map</title>
-    <style>
-        
 
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .logo img{
-            width:110px;
-            height:auto;
-        }
-   
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-
-        .icons {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            font-size: 28px;
-        }
-
-        h1 {
+{% block extra_css %}
+<style>
+h1 {
             margin-top: 30px;
             font-size: 30px;
         }
@@ -128,118 +94,33 @@ File: home.html
             box-shadow:0 10px 22px rgba(0,0,0,0.25);
         }
 
-        .sky-navbar{
-            background: rgba(15,23,42,0.85);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-            padding: 15px 30px;
-            position: fixed;
-            top:0;
-            left:0;
-            right:0;
-            z-index:1100;
-            display:flex;
-            align-items:center;
-        }
+        
 
-        .sky-logo{
-            font-size:2rem;
-            font-weight:800;
-            background: linear-gradient(135deg,#38bdf8,#818cf8);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-        }
+        
 
-        :root {
-            --sky-blue: #00a3e0;
-            --sky-dark: #0055a5;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --accent-blue: #38bdf8;
-            --sidebar-bg: #0b1120;
-        }
+        
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', Arial, sans-serif;
-        }
+        
 
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            height: 100vh;
-            border-right: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1050;
-            width: 260px;
-            padding-top: 35px;
-        }
+        
 
-        .logo {
-            text-align: center;
-            margin-bottom: 45px;
-        }
+        
 
-        .logo img {
-            width: 115px;
-            height: auto;
-        }
+        
 
-        .nav-item {
-            color: var(--text-muted);
-            padding: 12px 20px;
-            margin: 4px 16px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 17px;
-        }
+        
 
-        .nav-item:hover {
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--accent-blue);
-        }
+        
 
-        .nav-item.active {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
-            color: var(--accent-blue);
-            font-weight: 600;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-        }
+        
 
-        .main {
-            margin-left: 260px;
-            padding: 28px 35px;
-            min-height: 100vh;
-        }
+        
 
-        .search {
-            width: 520px;
-            padding: 14px 18px;
-            font-size: 17px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            color: white;
-            border-radius: 12px;
-        }
+        
 
-        .search::placeholder {
-            color: var(--text-muted);
-        }
+        
 
-        .icons {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            font-size: 26px;
-        }
+        
 
         h1 {
             margin-top: 30px;
@@ -357,15 +238,12 @@ File: home.html
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
             border-color: var(--accent-blue);
         }
+</style>
+{% endblock %}
 
-      
-
-
-    
-    </style>
-</head>
+{% block extra_js %}
 <script>
-    let zoomLevel = 1;
+let zoomLevel = 1;
 
 
 
@@ -473,36 +351,10 @@ File: home.html
     window.addEventListener("load", drawArrows);
     window.addEventListener("resize", drawArrows);
 </script>
-<body>
+{% endblock %}
 
-<div class="layout">
-
-    <!-- Navigation bar -->
-
-    <div class="sidebar">
-        <div class="logo">
-            <img src="{% static 'organization/images/skylogo.png' %}" alt="Sky Logo">
-        </div>
-        <a href="{% url 'dashboard' %}" class="nav-item text-decoration-none d-block">Dashboard</a>
-        <a href="{% url 'teams' %}" class="nav-item text-decoration-none d-block">Teams</a>
-        <a href="{% url 'organisation' %}" class="nav-item active text-decoration-none d-block">Organisation</a>
-        <a href="{% url 'messages' %}" class="nav-item text-decoration-none d-block">Messages</a>
-        <a href="{% url 'schedule' %}" class="nav-item text-decoration-none d-block">Schedule</a>
-    </div>
-
-    <div class="main">
-
-        <div class="topbar">
-            <form method="GET">
-            <input class="search" type="text" name="q"
-            placeholder="🔍 Search teams, departments or managers ...."
-            value="{{ query|default:'' }}">
-            </form>
-            <div class="icons">
-                <span>🔔</span>
-                <span>👤</span>
-            </div>
-        </div>
+{% block content %}
+<!-- Navigation bar -->
 
         <h1>Organization Map</h1>
         <p class="subtitle">Visualize team relationships and dependencies</p>
@@ -584,10 +436,4 @@ File: home.html
                 </span>
             {% endfor %}
         </div>
-
-    </div>
-
-</div>
-
-</body>
-</html>
+{% endblock %}

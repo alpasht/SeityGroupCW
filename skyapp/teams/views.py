@@ -91,8 +91,26 @@ def get_mock_teams():
 
 
 # ===================== VIEWS =====================
-def home(request):
-    return HttpResponse("Hello World - Sky Engineering Portal")
+def dashboard(request):
+    # Dashboard Overview Page
+    mock_teams = get_mock_teams()
+    
+    total_teams = len(mock_teams)
+    total_members = sum(t.members_count for t in mock_teams)
+    
+    # Extract all unique repos
+    all_repos = set()
+    for t in mock_teams:
+        for repo in t.repositories:
+            all_repos.add(repo)
+    total_repos = len(all_repos)
+    
+    return render(request, 'dashboard.html', {
+        'total_teams': total_teams,
+        'total_members': total_members,
+        'total_repos': total_repos,
+        'recent_teams': mock_teams[:5]
+    })
 
 
 def teams(request):
@@ -129,8 +147,3 @@ def team_detail(request, id):
 def team_create(request):
     #Create New Team Page
     return HttpResponse("Create New Team page - Coming soon!")
-
-
-def dummy_view(request, **kwargs):
-    #Placeholder for other pages
-    return HttpResponse("This page is not yet implemented.")

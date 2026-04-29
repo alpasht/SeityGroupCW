@@ -4,7 +4,11 @@ Student ID: w2073928
 Module: Organisation Module
 File: dependency_list.html
 
---><h1>Team Dependencies</h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Team Dependencies</h1>
 
 <ul>
     {% for dep in dependencies %}
@@ -16,3 +20,4 @@ File: dependency_list.html
         </li>
     {% endfor %}
 </ul>
+{% endblock %}

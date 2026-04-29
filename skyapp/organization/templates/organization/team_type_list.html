@@ -1,26 +1,10 @@
-<!--
-Author: Mohammed Yousuf Moghal
-Student ID: w2073928
-Module: Organisation Module
-File: team_type_list.html
--->
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Team Types</title>
-    <style>
-      body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#0f172a;
-            color:#f8fafc;
-        }
-
-        /* page container */
-        .main{
-            padding:35px;
-        }
+{% block extra_css %}
+<style>
+/* page container */
+        
 
         /* back link */
         .back-link{
@@ -111,14 +95,11 @@ File: team_type_list.html
             color:#94a3b8;
             background:#111827;
         }
+</style>
+{% endblock %}
 
-    </style>
-</head>
-<body>
-
-<div class="main">
-
-    <a class="back-link" href="{% url 'organization_home' %}">← Back to Organization Map</a>
+{% block content %}
+<a class="back-link" href="{% url 'organization_home' %}">← Back to Organization Map</a>
 
     <h1>Team Types</h1>
     <p class="subtitle">View team categories and the teams assigned to each type.</p>
@@ -160,8 +141,4 @@ File: team_type_list.html
         {% endfor %}
 
     </div>
-
-</div>
-
-</body>
-</html>
+{% endblock %}

@@ -1,22 +1,9 @@
-<!--
-Author: Mohammed Yousuf Moghal
-Student ID: w2073928
-Module: Organisation Module
-File: team_detail.html
--->
+{% extends 'base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- Page title uses selected team name -->
-    <title>{{ team.name }}</title>
-
-    <style>
-
-
-
-
-        /* Back navigation link */
+{% block extra_css %}
+<style>
+/* Back navigation link */
         .back-link {
             color: white;
             text-decoration: none;
@@ -94,70 +81,12 @@ File: team_detail.html
             box-shadow:0 8px 20px rgba(0,0,0,0.18);
             max-width:850px;
         }
+</style>
+{% endblock %}
 
-
-        :root {
-            --sky-blue: #00a3e0;
-            --sky-dark: #0055a5;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --accent-blue: #38bdf8;
-            --sidebar-bg: #0b1120;
-        }
-
-        body{
-            margin:0;
-            font-family:Arial,sans-serif;
-            background:#0f172a;
-            color:white;
-        }
-
-        .sidebar{
-            background:var(--sidebar-bg);
-            height:100vh;
-            width:260px;
-            position:fixed;
-            top:0;
-            left:0;
-            border-right:1px solid var(--border-color);
-            padding-top:35px;
-        }
-
-        .logo{
-            text-align:center;
-            margin-bottom:40px;
-        }
-
-        .logo img{
-            width:115px;
-        }
-
-        .nav-item{
-            color:var(--text-muted);
-            padding:12px 20px;
-            margin:4px 16px;
-            border-radius:10px;
-        }
-
-        .nav-item.active{
-            background:rgba(56,189,248,0.2);
-            color:#38bdf8;
-        }
-
-        .main{
-            margin-left:260px;
-            padding:30px;
-        }
-    </style>
-</head>
-
-<body>
-
+{% block content %}
 <!-- Main page wrapper -->
-<div class="main">
+
 
     <!-- Link back to organization map -->
     <a class="back-link" href="{% url 'organization_home' %}">← Back to Organization Map</a>
@@ -233,8 +162,4 @@ File: team_detail.html
     {% empty %}
         <div class="dependency">No downstream dependencies.</div>
     {% endfor %}
-
-</div>
-
-</body>
-</html>
+{% endblock %}

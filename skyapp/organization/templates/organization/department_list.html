@@ -5,6 +5,10 @@ Module: Organisation Module
 File: department_list.html
 -->
 
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
 <h1>Departments</h1>
 
 <form method="GET">
@@ -21,3 +25,4 @@ File: department_list.html
         </li>
     {% endfor %}
 </ul>
+{% endblock %}

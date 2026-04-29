@@ -1,28 +1,9 @@
-<!--
-Author: Mohammed Yousuf Moghal
-Student ID: w2073928
-Module: Organisation Module
-File: department_detail.html
--->
+{% extends 'base.html' %}
+{% load static %}
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ department.name }}</title>
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:#0f172a;
-            color:#f8fafc;
-        }
-
-        .main {
-            padding: 35px;
-        }
-
-        .back-link {
+{% block extra_css %}
+<style>
+.back-link {
             color: white;
             text-decoration: none;
             font-size: 18px;
@@ -134,15 +115,13 @@ File: department_detail.html
             border-top:5px solid #7c3aed;
             max-width:850px;
         }
+</style>
+{% endblock %}
 
-
-    </style>
-</head>
-<body>
-
+{% block content %}
 <!-- Main page container -->
 
-<div class="main">
+
 
     <!-- Navigation link back to organization home page -->
 
@@ -225,8 +204,4 @@ File: department_detail.html
     {% empty %}
         <p>No dependencies connected to this department yet.</p>
     {% endfor %}
-
-</div>
-
-</body>
-</html>
+{% endblock %}
