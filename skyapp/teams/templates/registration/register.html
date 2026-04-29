@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Sky Engineering Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        min-height: calc(100vh - 120px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .auth-card {
+        width: 100%;
+        max-width: 450px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+    }
+    .auth-header {
+        background: var(--sky-blue);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+    }
+    .auth-body {
+        padding: 30px;
+        background: white;
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 12px;
+        border: 1px solid #e0e0e0;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(0, 114, 201, 0.25);
+        border-color: var(--sky-blue);
+    }
+    .btn-auth {
+        background: var(--sky-blue);
+        color: white;
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: 600;
+        width: 100%;
+        margin-top: 15px;
+    }
+    .btn-auth:hover {
+        background: #005a9e;
+        color: white;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .help-text {
+        font-size: 0.8rem;
+        color: #6c757d;
+        margin-top: 4px;
+    }
+    .errorlist {
+        color: #dc3545;
+        font-size: 0.85rem;
+        list-style-type: none;
+        padding-left: 0;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container auth-container">
+    <div class="card auth-card">
+        <div class="auth-header">
+            <h3 class="mb-0">Create an Account</h3>
+            <p class="text-white-50 mb-0 mt-2">Join the Sky Engineering Portal</p>
+        </div>
+        <div class="auth-body">
+            <form method="post" action="{% url 'register' %}" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label text-muted fw-semibold" style="font-size: 0.9rem;">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="help-text">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-auth">Sign Up</button>
+            </form>
+            
+            <div class="text-center mt-4 pt-3 border-top">
+                <p class="text-muted mb-0" style="font-size: 0.9rem;">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none" style="color: var(--sky-blue); font-weight: 600;">Log in</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add bootstrap form-control class to all inputs
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.auth-body input');
+        inputs.forEach(input => {
+            if (input.type !== 'submit' && input.type !== 'hidden' && input.type !== 'checkbox') {
+                input.classList.add('form-control');
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -13,8 +13,13 @@ urlpatterns = [
     path('organization/', include('skyapp.organization.urls')),
     path('messages/', include('skyapp.messages_app.urls'), name='messages'),
     path('schedule/', include('skyapp.schedule.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    
+    # Auth URLs
+    path('login/', views.CustomLoginView.as_view(), name='login'),
+    path('logout/', views.CustomLogoutView.as_view(), name='logout'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('accounts/', include('django.contrib.auth.urls')), # Fallback for password change, etc.
+    
     path('reports/', include('skyapp.reports.urls')),
     path('admin/', admin.site.urls),
-    
 ]

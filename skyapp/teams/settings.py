@@ -127,7 +127,7 @@ STATICFILES_DIRS=[
     BASE_DIR/ 'skyapp' / 'teams' / 'staticfiles',
 ]
 
-LOGIN_REDIRECT_URL = '/schedule/'
-LOGOUT_REDIRECT_URL = '/schedule/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 #
