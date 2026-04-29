@@ -1,379 +1,191 @@
-<!--
-Author: Mohammed Yousuf Moghal
-Student ID: w2073928
-Module: Organisation Module
-File: home.html
--->
-
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Organization Map</title>
-    <style>
-        
 
-        .layout {
-            display: flex;
-            min-height: 100vh;
-        }
+{% block title %}Organization Map - Sky Engineering Portal{% endblock %}
 
-        .logo img{
-            width:110px;
-            height:auto;
-        }
-   
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+{% block extra_css %}
+<style>
+    h1 {
+        margin-top: 30px;
+        font-size: 30px;
+    }
 
+    .subtitle {
+        font-size: 22px;
+        margin-top: -10px;
+    }
 
-        .icons {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            font-size: 28px;
-        }
+    .department-card {
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        padding: 18px;
+        margin: 15px;
+        display: inline-block;
+        min-width: 220px;
+        vertical-align: top;
+    }
 
-        h1 {
-            margin-top: 30px;
-            font-size: 30px;
-        }
+    .dependency {
+        background: #fff4cc;
+        color: #333;
+        padding: 10px;
+        margin: 10px 0;
+        border-left: 5px solid #ffb300;
+    }
 
-        .subtitle {
-            font-size: 22px;
-            margin-top: -10px;
-        }
-  
-        .department-card {
-            background: white;
-            color: #333;
-            border-radius: 8px;
-            padding: 18px;
-            margin: 15px;
-            display: inline-block;
-            min-width: 220px;
-            vertical-align: top;
-        }
+    #arrowLayer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1600px;
+        height: 1000px;
+        pointer-events: none;
+        z-index: 1;
+    }
 
-        .dependency {
-            background: #fff4cc;
-            color: #333;
-            padding: 10px;
-            margin: 10px 0;
-            border-left: 5px solid #ffb300;
-        }
+    .map-title {
+        color: white;
+        font-size: 26px;
+        margin: 30px 0 15px;
+        font-weight: 700;
+    }
 
+    .section-row {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
 
-        #arrowLayer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1600px;
-            height: 1000px;
-            pointer-events: none;
-            z-index: 1;
-        }
+    .team-section {
+        margin-left: -32px;
+    }
 
+    #mapContent {
+        position: relative;
+        transform-origin: top left;
+        min-width: 1400px;
+        min-height: 700px;
+    }
 
-        .map-title{
-            color:white;
-            font-size:26px;
-            margin:30px 0 15px;
-            font-weight:700;
-        }
+    .team-card-link {
+        text-decoration: none;
+        color: inherit;
+    }
 
-        .section-row{
-            display:flex;
-            gap:30px;
-            flex-wrap:wrap;
-            margin-bottom:20px;
-        }
+    .team-card-link:hover .team-node {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    }
 
-        .team-section{
-            margin-left:-32px;
-        }
+    .dept-card-link {
+        text-decoration: none;
+        color: inherit;
+    }
 
-        #mapContent {
-            position: relative;
-            transform-origin: top left;
-            min-width: 1400px;
-            min-height: 700px;
-        }
+    .dept-card-link:hover .department-node,
+    .team-card-link:hover .team-node {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    }
 
-        .team-card-link {
-            text-decoration: none;
-            color: inherit;
-        }
+    .buttons {
+        margin: 12px 0;
+        margin-bottom: -7px;
+    }
 
-        .team-card-link:hover .team-node {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-        }
+    .buttons button,
+    .teamtype-btn {
+        font-size: 15px;
+        padding: 12px 22px;
+        margin-right: 16px;
+        background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        color: white;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+        cursor: pointer;
+        transition: 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: 32px;
+    }
 
-        
+    .buttons button:hover,
+    .teamtype-btn:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+    }
 
-        .dept-card-link{
-            text-decoration:none;
-            color:inherit;
-        }
+    .map-box {
+        position: relative;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        min-height: 550px;
+        padding: 30px;
+        overflow: auto;
+        transform-origin: top left;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
 
-      
+    .org-node {
+        position: relative;
+        z-index: 2;
+        background-color: #111827;
+        color: var(--text-main);
+        border-radius: 16px;
+        padding: 18px;
+        margin: 20px;
+        width: 245px;
+        display: inline-block;
+        vertical-align: top;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--border-color);
+        transition: 0.25s ease;
+    }
 
-        .dept-card-link:hover .department-node,
-        .team-card-link:hover .team-node{
-            transform:translateY(-4px);
-            box-shadow:0 10px 22px rgba(0,0,0,0.25);
-        }
+    .department-node {
+        border-top: 6px solid #6366f1;
+    }
 
-        .sky-navbar{
-            background: rgba(15,23,42,0.85);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-            padding: 15px 30px;
-            position: fixed;
-            top:0;
-            left:0;
-            right:0;
-            z-index:1100;
-            display:flex;
-            align-items:center;
-        }
+    .team-node {
+        border-top: 6px solid var(--accent-blue);
+        margin-left: 55px;
+    }
 
-        .sky-logo{
-            font-size:2rem;
-            font-weight:800;
-            background: linear-gradient(135deg,#38bdf8,#818cf8);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-        }
+    .org-node h3,
+    .org-node h4 {
+        color: var(--text-main);
+    }
 
-        :root {
-            --sky-blue: #00a3e0;
-            --sky-dark: #0055a5;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --accent-blue: #38bdf8;
-            --sidebar-bg: #0b1120;
-        }
+    .org-node p {
+        color: var(--text-muted);
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', Arial, sans-serif;
-        }
+    .dependency-display {
+        background-color: rgba(56, 189, 248, 0.08);
+        color: var(--text-main);
+        padding: 12px 16px;
+        margin: 10px 0;
+        border-left: 5px solid var(--accent-blue);
+        border-radius: 8px;
+    }
+</style>
+{% endblock %}
 
-        .sidebar {
-            background-color: var(--sidebar-bg);
-            height: 100vh;
-            border-right: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1050;
-            width: 260px;
-            padding-top: 35px;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 45px;
-        }
-
-        .logo img {
-            width: 115px;
-            height: auto;
-        }
-
-        .nav-item {
-            color: var(--text-muted);
-            padding: 12px 20px;
-            margin: 4px 16px;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 17px;
-        }
-
-        .nav-item:hover {
-            background-color: rgba(56, 189, 248, 0.1);
-            color: var(--accent-blue);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2));
-            color: var(--accent-blue);
-            font-weight: 600;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-        }
-
-        .main {
-            margin-left: 260px;
-            padding: 28px 35px;
-            min-height: 100vh;
-        }
-
-        .search {
-            width: 520px;
-            padding: 14px 18px;
-            font-size: 17px;
-            background-color: #0f172a;
-            border: 1px solid var(--border-color);
-            color: white;
-            border-radius: 12px;
-        }
-
-        .search::placeholder {
-            color: var(--text-muted);
-        }
-
-        .icons {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-            font-size: 26px;
-        }
-
-        h1 {
-            margin-top: 30px;
-            font-size: 34px;
-            color: var(--text-main);
-        }
-
-        .subtitle {
-            font-size: 20px;
-            color: var(--text-muted);
-            margin-top: -8px;
-        }
-
-        .buttons {
-            margin: 12px 0;
-            margin-bottom: -7px;
-        }
-
-        .buttons button,
-        .teamtype-btn {
-            font-size: 15px;
-            padding: 12px 22px;
-            margin-right: 16px;
-            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
-            color: white;
-            font-weight: 700;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
-            cursor: pointer;
-            transition: 0.2s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin-bottom: 32px;
-            margin-top: -50px;
-        }
-
-        .buttons button:hover,
-        .teamtype-btn:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
-        }
-
-        .map-box {
-            position: relative;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            min-height: 550px;
-            padding: 30px;
-            overflow: auto;
-            transform-origin: top left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .map-title {
-            color: var(--text-main);
-            font-size: 26px;
-            margin: 30px 0 15px;
-            font-weight: 700;
-        }
-
-        .org-node {
-            position: relative;
-            z-index: 2;
-            background-color: #111827;
-            color: var(--text-main);
-            border-radius: 16px;
-            padding: 18px;
-            margin: 20px;
-            width: 245px;
-            display: inline-block;
-            vertical-align: top;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            border: 1px solid var(--border-color);
-            transition: 0.25s ease;
-        }
-
-        .department-node {
-            border-top: 6px solid #6366f1;
-        }
-
-        .team-node {
-            border-top: 6px solid var(--accent-blue);
-            margin-left: 55px;
-        }
-
-        .org-node h3,
-        .org-node h4 {
-            color: var(--text-main);
-        }
-
-        .org-node p {
-            color: var(--text-muted);
-        }
-
-        .dependency {
-            background-color: rgba(56, 189, 248, 0.08);
-            color: var(--text-main);
-            padding: 12px 16px;
-            margin: 10px 0;
-            border-left: 5px solid var(--accent-blue);
-            border-radius: 8px;
-        }
-
-        .dept-card-link,
-        .team-card-link {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .dept-card-link:hover .department-node,
-        .team-card-link:hover .team-node {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            border-color: var(--accent-blue);
-        }
-
-      
-
-
-    
-    </style>
-</head>
+{% block extra_js %}
 <script>
     let zoomLevel = 1;
 
-
-
     function drawArrows() {
-    const svg = document.getElementById("arrowLayer");
-    const map = document.getElementById("orgMap");
+        const svg = document.getElementById("arrowLayer");
+        const map = document.getElementById("orgMap");
+        if (!svg || !map) return;
 
-    svg.innerHTML = `
+        svg.innerHTML = `
         <defs>
             <marker id="arrowhead"
                 markerWidth="12"
@@ -386,71 +198,48 @@ File: home.html
         </defs>
     `;
 
-    const dependencies = document.querySelectorAll(".dependency-data");
+        const dependencies = document.querySelectorAll(".dependency-data");
 
-    dependencies.forEach(dep => {
+        dependencies.forEach(dep => {
+            const fromNode = document.getElementById(dep.dataset.from);
+            const toNode = document.getElementById(dep.dataset.to);
 
-        const fromNode = document.getElementById(dep.dataset.from);
-        const toNode = document.getElementById(dep.dataset.to);
+            if (!fromNode || !toNode) return;
 
-        if (!fromNode || !toNode) return;
+            const startX = fromNode.offsetLeft + fromNode.offsetWidth;
+            const startY = fromNode.offsetTop + fromNode.offsetHeight / 2;
 
-        const mapRect = map.getBoundingClientRect();
-        const fromRect = fromNode.getBoundingClientRect();
-        const toRect = toNode.getBoundingClientRect();
+            const endX = toNode.offsetLeft;
+            const endY = toNode.offsetTop + toNode.offsetHeight / 2;
 
-        const startX = fromNode.offsetLeft + fromNode.offsetWidth;
-        const startY = fromNode.offsetTop + fromNode.offsetHeight / 2;
+            const sameRow = Math.abs(startY - endY) < 40;
+            if (!sameRow) return;
 
-        const endX = toNode.offsetLeft;
-        const endY = toNode.offsetTop + toNode.offsetHeight / 2;
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", startX);
+            line.setAttribute("y1", startY);
+            line.setAttribute("x2", endX);
+            line.setAttribute("y2", endY);
+            line.setAttribute("stroke", "#ffffff");
+            line.setAttribute("stroke-width", "4");
+            line.setAttribute("marker-end", "url(#arrowhead)");
+            svg.appendChild(line);
 
-        const sameRow = Math.abs(startY - endY) < 40;
-
-        if (!sameRow) {
-            return;
-        }
-
-        // LINE
-        const line = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "line"
-        );
-
-        line.setAttribute("x1", startX);
-        line.setAttribute("y1", startY);
-        line.setAttribute("x2", endX);
-        line.setAttribute("y2", endY);
-        line.setAttribute("stroke", "#ffffff");
-        line.setAttribute("stroke-width", "4");
-        line.setAttribute("marker-end", "url(#arrowhead)");
-
-        svg.appendChild(line);
-
-        // LABEL
-        const text = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
-        );
-
-        text.setAttribute("x", (startX + endX) / 2);
-        text.setAttribute("y", (startY + endY) / 2 - 22);
-        text.setAttribute("fill", "#ffffff");
-        text.setAttribute("font-size", "14");
-        text.setAttribute("font-weight", "bold");
-        text.setAttribute("text-anchor", "middle");
-
-        text.textContent = dep.dataset.type;
-
-        svg.appendChild(text);
-
-    });
-}
-
+            const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            text.setAttribute("x", (startX + endX) / 2);
+            text.setAttribute("y", (startY + endY) / 2 - 22);
+            text.setAttribute("fill", "#ffffff");
+            text.setAttribute("font-size", "14");
+            text.setAttribute("font-weight", "bold");
+            text.setAttribute("text-anchor", "middle");
+            text.textContent = dep.dataset.type;
+            svg.appendChild(text);
+        });
+    }
 
     function applyZoom() {
         const mapContent = document.getElementById("mapContent");
-        mapContent.style.transform = `scale(${zoomLevel})`;
+        if (mapContent) mapContent.style.transform = `scale(${zoomLevel})`;
     }
 
     function zoomIn() {
@@ -473,121 +262,74 @@ File: home.html
     window.addEventListener("load", drawArrows);
     window.addEventListener("resize", drawArrows);
 </script>
-<body>
+{% endblock %}
 
-<div class="layout">
+{% block content %}
+<div class="mb-4">
+    <h1>Organization Map</h1>
+    <p class="subtitle">Visualize team relationships and dependencies</p>
+</div>
 
-    <!-- Navigation bar -->
+<div class="buttons">
+    <button onclick="zoomIn()">🔍 Zoom In</button>
+    <button onclick="zoomOut()">🔎 Zoom Out</button>
+    <button onclick="fitToScreen()">⛶ Fit To Screen</button>
+</div>
 
-    <div class="sidebar">
-        <div class="logo">
-            <img src="{% static 'organization/images/skylogo.png' %}" alt="Sky Logo">
-        </div>
-        <a href="{% url 'dashboard' %}" class="nav-item text-decoration-none d-block">Dashboard</a>
-        <a href="{% url 'teams' %}" class="nav-item text-decoration-none d-block">Teams</a>
-        <a href="{% url 'organization_home' %}" class="nav-item active text-decoration-none d-block">Organisation</a>
-        <a href="{% url 'messages' %}" class="nav-item text-decoration-none d-block">Messages</a>
-        <a href="{% url 'schedule' %}" class="nav-item text-decoration-none d-block">Schedule</a>
-    </div>
+<a href="{% url 'team_type_list' %}" class="teamtype-btn">View Team Types</a>
 
-    <div class="main">
+<div class="map-box" id="orgMap">
+    <div id="mapContent">
+        <svg id="arrowLayer"></svg>
 
-        <div class="topbar">
-            <form method="GET">
-            <input class="search" type="text" name="q"
-            placeholder="🔍 Search teams, departments or managers ...."
-            value="{{ query|default:'' }}">
-            </form>
-            <div class="icons">
-                <span>🔔</span>
-                <span>👤</span>
-            </div>
-        </div>
-
-        <h1>Organization Map</h1>
-        <p class="subtitle">Visualize team relationships and dependencies</p>
-
-        <div class="buttons">
-            <button onclick="zoomIn()">🔍 Zoom In</button>
-            <button onclick="zoomOut()">🔎 Zoom Out</button>
-            <button onclick="fitToScreen()">⛶ Fit To Screen</button>
-        </div>
-
-        <!-- Team type navigation button -->
-
-        <a href="{% url 'team_type_list' %}" class="teamtype-btn">
-        View Team Types
-        </a>
-
-        <div class="map-box" id="orgMap">
-            <div id="mapContent">
-                <svg id="arrowLayer"></svg>
-
-                <!-- Department cards -->
-
-                <h3 class="map-title">Departments</h3>
-                <div class="section-row">
-                    {% for dept in departments %}
-                        <a href="{% url 'department_detail' dept.id %}" class="dept-card-link">
-                            <div class="org-node department-node">
-                                <h3>{{ dept.name }}</h3>
-                                <p><strong>Leader:</strong> {{ dept.leader }}</p>
-                                <p><strong>Specialisation:</strong> {{ dept.specialisation }}</p>
-                            </div>
-                        </a>
-                    {% empty %}
-                        <p>No departments found.</p>
-                    {% endfor %}
+        <h3 class="map-title">Departments</h3>
+        <div class="section-row">
+            {% for dept in departments %}
+            <a href="{% url 'department_detail' dept.id %}" class="dept-card-link">
+                <div class="org-node department-node">
+                    <h3>{{ dept.name }}</h3>
+                    <p><strong>Leader:</strong> {{ dept.leader }}</p>
+                    <p><strong>Specialisation:</strong> {{ dept.specialisation }}</p>
                 </div>
-
-                <!-- Team cards -->
-                 
-                <h3 class="map-title">Teams</h3>
-                <div class="section-row team-section">
-                    {% for team in teams %}
-                        <a href="{% url 'org_team_detail' team.id %}" class="team-card-link">
-                            <div class="org-node team-node"
-                                id="team-{{ team.id }}"
-                                data-team-id="{{ team.id }}">
-                                <h4>{{ team.name }}</h4>
-                                <p>Manager: {{ team.manager }}</p>
-                                <p>Type: {{ team.team_type.name }}</p>
-                            </div>
-                        </a>
-                    {% empty %}
-                        <p>No teams found.</p>
-                    {% endfor %}
-                </div>
-
-                <h3 class="map-title">Dependencies</h3>
-                <div class="section-row">
-                    {% for dep in dependencies %}
-                        <div class="dependency">
-                            {{ dep.from_team.name }} → {{ dep.to_team.name }}
-                            ({{ dep.dependency_type }})
-                    </div>
-                {% empty %}
-                    <p>No dependencies found.</p>
-                {% endfor %}
-                </div>
-            </div>
-        </div>
-
-    
-
-        <div style="display:none;">
-            {% for dep in dependencies %}
-                <span class="dependency-data"
-                    data-from="team-{{ dep.from_team.id }}"
-                    data-to="team-{{ dep.to_team.id }}"
-                    data-type="{{ dep.dependency_type }}">
-                </span>
+            </a>
+            {% empty %}
+            <p>No departments found.</p>
             {% endfor %}
         </div>
 
-    </div>
+        <h3 class="map-title">Teams</h3>
+        <div class="section-row team-section">
+            {% for team in teams %}
+            <a href="{% url 'org_team_detail' team.id %}" class="team-card-link">
+                <div class="org-node team-node" id="team-{{ team.id }}" data-team-id="{{ team.id }}">
+                    <h4>{{ team.name }}</h4>
+                    <p>Manager: {{ team.manager }}</p>
+                    <p>Type: {{ team.team_type.name }}</p>
+                </div>
+            </a>
+            {% empty %}
+            <p>No teams found.</p>
+            {% endfor %}
+        </div>
 
+        <h3 class="map-title">Dependencies</h3>
+        <div class="section-row">
+            {% for dep in dependencies %}
+            <div class="dependency-display">
+                {{ dep.from_team.name }} → {{ dep.to_team.name }} ({{ dep.dependency_type }})
+            </div>
+            {% empty %}
+            <p>No dependencies found.</p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
-</body>
-</html>
+<div style="display:none;">
+    {% for dep in dependencies %}
+    <span class="dependency-data" data-from="team-{{ dep.from_team.id }}" data-to="team-{{ dep.to_team.id }}"
+        data-type="{{ dep.dependency_type }}">
+    </span>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -9,7 +9,7 @@ from . import views
 
 # Application page routes
 urlpatterns = [
-    path('', views.organization_home, name='organization_home'),
+    path('', views.organization_home, name='organisation'),
     path('departments/', views.department_list, name='department_list'),
     path('departments/<int:department_id>/', views.department_detail, name='department_detail'),
     path('dependencies/', views.dependency_list, name='dependency_list'),
