@@ -1,49 +1,56 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Draft Messages</title>
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Draft Messages</title>
-    <link rel="stylesheet" href="{% static 'messages_app/teams.css' %}">
-</head>
-<body>
 
-<div class="sidebar">
-    <h2>Sky Portal</h2>
-    <a href="/messages/new/">New Message</a>
-    <a href="/messages/inbox/">Inbox</a>
-    <a href="/messages/sent/">Sent</a>
-    <a href="/messages/drafts/">Drafts</a>
+{% block title %}Draft Messages - Sky Engineering Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold text-light">Messages</h1>
 </div>
 
-<div class="page">
-    <h1>Draft Messages</h1>
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'inbox' or request.resolver_match.url_name == 'messages' %}active{% endif %}" href="{% url 'inbox' %}">Inbox</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'sent_messages' %}active{% endif %}" href="{% url 'sent_messages' %}">Sent</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'drafts' %}active{% endif %}" href="{% url 'drafts' %}">Drafts</a>
+    </li>
+    <li class="nav-item ms-auto">
+        <a class="btn btn-primary" href="{% url 'new_message' %}"><i class="bi bi-pencil-square me-2"></i>New Message</a>
+    </li>
+</ul>
+
+<div class="card detail-card p-4 bg-dark text-light border-secondary">
+    <h4 class="mb-4">Draft Messages</h4>
 
     {% if messages %}
+        <div class="list-group">
         {% for message in messages %}
-            <div class="card">
-                <h3>{{ message.subject }}</h3>
-                <p>
+            <div class="list-group-item bg-dark text-light border-secondary mb-3 rounded">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 text-primary">{{ message.subject }}</h5>
+                    <small class="text-muted">Last updated: {{ message.time_updated }}</small>
+                </div>
+                <p class="mb-1">
                     <strong>To:</strong>
                     {% if message.recipient %}
                         {{ message.recipient.username }}
                     {% else %}
-                        No recipient selected
+                        <span class="text-muted">No recipient selected</span>
                     {% endif %}
                 </p>
-                <p>{{ message.content }}</p>
-                <p><small>Last updated: {{ message.time_updated }}</small></p>
+                <p class="mb-1">{{ message.content }}</p>
             </div>
         {% endfor %}
+        </div>
     {% else %}
-        <div class="card">
-            <p>No draft messages.</p>
+        <div class="text-center py-5">
+            <i class="bi bi-file-earmark-text display-1 text-muted"></i>
+            <p class="mt-3 text-muted">No draft messages.</p>
         </div>
     {% endif %}
 </div>
-
-</body>
-</html> 
+{% endblock %}
