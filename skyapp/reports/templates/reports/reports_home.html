@@ -11,7 +11,7 @@
     <h1 class="h3 fw-bold">Reports Dashboard</h1>
 </div>
 
-<!-- Summary Section -->
+<!-- Summary section -->
 <div class="row g-4 mb-4">
     <div class="col-md-4">
         <div class="card border-0 shadow-sm text-center h-100">
@@ -41,7 +41,7 @@
     </div>
 </div>
 
-<!-- Export Buttons -->
+<!-- Export buttons for pdf and excel -->
 <div class="d-flex gap-2 mb-4">
     <a href="{% url 'export_pdf' %}" class="btn btn-outline-danger">
         <i class="bi bi-file-pdf me-1"></i> Export PDF
@@ -51,7 +51,7 @@
     </a>
 </div>
 
-<!-- All Teams Table -->
+<!-- All teams table! -->
 <div class="card shadow-sm mb-4">
     <div class="card-header">All Teams</div>
     <div class="card-body">
@@ -78,12 +78,12 @@
     </div>
 </div>
 
-<!-- Detailed Team Manager Status -->
+<!-- Status of team managers -->
 <div class="row g-4">
     <div class="col-md-6">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-header py-3">
-                <h6 class="mb-0 fw-bold text-warning">Attention: Unassigned Teams</h6>
+                <h6 class="mb-0 fw-bold text-warning">Teams Without Manager</h6>
             </div>
             <div class="card-body">
                 <div class="list-group list-group-flush">
