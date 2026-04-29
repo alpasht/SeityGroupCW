@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Draft Messages</title>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Draft Messages</title>
+    <link rel="stylesheet" href="{% static 'messages_app/teams.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Sky Portal</h2>
+    <a href="/messages/new/">New Message</a>
+    <a href="/messages/inbox/">Inbox</a>
+    <a href="/messages/sent/">Sent</a>
+    <a href="/messages/drafts/">Drafts</a>
+</div>
+
+<div class="page">
+    <h1>Draft Messages</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="card">
+                <h3>{{ message.subject }}</h3>
+                <p>
+                    <strong>To:</strong>
+                    {% if message.recipient %}
+                        {{ message.recipient.username }}
+                    {% else %}
+                        No recipient selected
+                    {% endif %}
+                </p>
+                <p>{{ message.content }}</p>
+                <p><small>Last updated: {{ message.time_updated }}</small></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="card">
+            <p>No draft messages.</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html> 

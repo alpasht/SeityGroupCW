@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+    <link rel="stylesheet" href="{% static 'messages_app/teams.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Sky Portal</h2>
+    <a href="/messages/new/">New Message</a>
+    <a href="/messages/inbox/">Inbox</a>
+    <a href="/messages/sent/">Sent</a>
+    <a href="/messages/drafts/">Drafts</a>
+</div>
+
+<div class="page">
+    <h1>Inbox</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="card">
+                <h3>{{ message.subject }}</h3>
+                <p><strong>From:</strong> {{ message.sender.username }}</p>
+                <p>{{ message.content }}</p>
+                <p><small>Sent: {{ message.time_created }}</small></p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="card">
+            <p>No messages in your inbox.</p>
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
