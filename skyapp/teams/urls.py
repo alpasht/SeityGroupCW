@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -13,5 +13,9 @@ urlpatterns = [
     path('dashboard/', views.dummy_view, name='dashboard'),
     path('organisation/', views.dummy_view, name='organisation'),
     path('messages/', views.dummy_view, name='messages'),
-    path('schedule/', views.dummy_view, name='schedule'),
+    path('schedule/', include('skyapp.schedule.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('reports/', include('skyapp.reports.urls')),
+
+
 ]

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Create / Edit Meeting</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button class="btn btn-success" type="submit">Save</button>
+    <a class="btn btn-secondary" href="{% url 'schedule' %}">Cancel</a>
+</form>
+{% endblock %}

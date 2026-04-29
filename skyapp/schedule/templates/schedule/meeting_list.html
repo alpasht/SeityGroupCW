@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2>Your Meetings</h2>
+
+<div class="mb-3">
+    <a class="btn btn-outline-primary" href="{% url 'weekly_view' %}">Weekly View</a>
+    <a class="btn btn-outline-primary" href="{% url 'monthly_view' %}">Monthly View</a>
+    <a class="btn btn-outline-primary" href="{% url 'upcoming_meetings' %}">Upcoming Meetings</a>
+</div>
+
+<a class="btn btn-primary mb-3" href="{% url 'meeting_create' %}">Create Meeting</a>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start</th>
+            <th>Platform</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for meeting in meetings %}
+        <tr>
+            <td>{{ meeting.title }}</td>
+            <td>{{ meeting.start_datetime }}</td>
+            <td>{{ meeting.platform }}</td>
+            <td>
+                <a class="btn btn-sm btn-warning" href="{% url 'meeting_update' meeting.pk %}">Edit</a>
+                <a class="btn btn-sm btn-danger" href="{% url 'meeting_delete' meeting.pk %}">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No meetings yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

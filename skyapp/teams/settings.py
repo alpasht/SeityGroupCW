@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'skyapp.teams',
     'skyapp.reports',
+    'skyapp.schedule',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'skyapp.urls'
+ROOT_URLCONF = 'skyapp.teams.urls'
 
 TEMPLATES = [
     {
@@ -123,5 +124,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS=[
     BASE_DIR/ 'skyapp' / 'teams' / 'staticfiles',
 ]
+
+LOGIN_REDIRECT_URL = '/schedule/'
+LOGOUT_REDIRECT_URL = '/schedule/'
 
 #

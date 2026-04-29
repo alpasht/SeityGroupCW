@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% load schedule_extras %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Monthly Calendar</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-outline-primary" href="?year={{ prev_month.year }}&month={{ prev_month.month }}">← Previous Month</a>
+    <h4>{{ current_date|date:"F Y" }}</h4>
+    <a class="btn btn-outline-primary" href="?year={{ next_month.year }}&month={{ next_month.month }}">Next Month →</a>
+</div>
+
+<table class="table table-bordered text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in month_days %}
+        <tr>
+            {% for day in week %}
+            <td class="{% if day.month != current_date.month %}text-muted{% endif %}">
+                <strong>{{ day.day }}</strong>
+
+                {% with key=day|stringformat:"s" %}
+                    {% with meetings=meetings_by_day|get_item:key %}
+                        {% if meetings %}
+                            {% for meeting in meetings %}
+ <div class="mt-2 p-1 border rounded" style="background-color:#e7f1ff; color:#003366;">
+    <strong>{{ meeting.title }}</strong><br>
+    {{ meeting.start_datetime|date:"H:i" }}
+</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                {% endwith %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

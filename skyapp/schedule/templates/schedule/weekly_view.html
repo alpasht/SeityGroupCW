@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load schedule_extras %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Weekly Calendar</h2>
+
+<div class="d-flex justify-content-between mb-3">
+    <a class="btn btn-outline-primary" href="?week={{ previous_week|date:'Y-m-d' }}">← Previous Week</a>
+    <h4>{{ current_week }} → {{ current_week|add:"6 days" }}</h4>
+    <a class="btn btn-outline-primary" href="?week={{ next_week|date:'Y-m-d' }}">Next Week →</a>
+</div>
+
+<div class="row">
+    {% for day in days %}
+        <div class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <strong>{{ day|date:"l" }}</strong><br>
+                    {{ day|date:"d M Y" }}
+                </div>
+                <div class="card-body">
+
+                    {# Convert day to string to match dictionary keys #}
+                    {% with key=day|stringformat:"s" %}
+                        {% with meetings=meetings_by_day|get_item:key %}
+                            {% if meetings %}
+                                {% for meeting in meetings %}
+                                    <div class="border p-2 mb-2">
+                                        <strong>{{ meeting.title }}</strong><br>
+                                        {{ meeting.start_datetime|date:"H:i" }}
+                                        <br>
+                                        <a href="{% url 'meeting_update' meeting.pk %}" class="btn btn-sm btn-warning mt-2">Edit</a>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No meetings</p>
+                            {% endif %}
+                        {% endwith %}
+                    {% endwith %}
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

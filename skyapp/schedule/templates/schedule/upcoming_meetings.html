@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/forms.css' %}">
+<link rel="stylesheet" href="{% static 'global/css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Upcoming Meetings</h2>
+
+{% if meetings %}
+    <ul class="list-group">
+        {% for meeting in meetings %}
+            <li class="list-group-item">
+                <strong>{{ meeting.title }}</strong><br>
+                {{ meeting.start_datetime|date:"D, d M Y H:i" }}<br>
+                Platform: {{ meeting.platform }}<br>
+                <a href="{% url 'meeting_update' meeting.pk %}" class="btn btn-sm btn-warning mt-2">Edit</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">No upcoming meetings</p>
+{% endif %}
+
+{% endblock %}
