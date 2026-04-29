@@ -1,0 +1,232 @@
+<!--
+Author: Mohammed Yousuf Moghal
+Student ID: w2073928
+Module: Organisation Module
+File: department_detail.html
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ department.name }}</title>
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#0f172a;
+            color:#f8fafc;
+        }
+
+        .main {
+            padding: 35px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+ 
+
+        .stats {
+            display: flex;
+            gap: 25px;
+            margin-top: 25px;
+            margin-bottom: 30px;
+        }
+
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+    
+        h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 35px;
+        }
+
+        .top-section{
+            display:flex;
+            gap:25px;
+            align-items:flex-start;
+            margin-top:25px;
+            margin-bottom:35px;
+        }
+
+
+        .stats-side{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        .stat-box{
+            background:white;
+            color:#222;
+            padding:20px;
+            border-radius:12px;
+            width:180px;
+            text-align:center;
+            box-shadow:0 4px 12px rgba(0,0,0,0.18);
+        }
+
+        .stat-number{
+            font-size:34px;
+            font-weight:bold;
+            color:#1d5fd1;
+        }
+
+        .summary-card{
+            background:#0f172a;
+            color:#f8fafc;
+            padding:28px;
+            border-radius:18px;
+            border:1px solid #334155;
+            border-top:6px solid #7c3aed;
+            box-shadow:0 10px 30px rgba(0,0,0,0.25);
+            flex:1;
+        }
+
+        .stat-box{
+            background:#111827;
+            color:#f8fafc;
+            padding:22px;
+            border-radius:16px;
+            width:190px;
+            text-align:center;
+            border:1px solid #334155;
+            border-top:6px solid #7c3aed;
+            box-shadow:0 10px 25px rgba(0,0,0,0.22);
+        }
+
+        .stat-number{
+            font-size:34px;
+            font-weight:bold;
+            color:#8b5cf6;
+        }
+
+        .team-card{
+            background:#111827;
+            color:#f8fafc;
+            padding:22px;
+            border-radius:16px;
+            width:280px;
+            border:1px solid #334155;
+            border-top:6px solid #38bdf8;
+            box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .dependency{
+            background:#111827;
+            color:#f8fafc;
+            padding:14px 18px;
+            margin:12px 0;
+            border-radius:10px;
+            border:1px solid #334155;
+            border-top:5px solid #7c3aed;
+            max-width:850px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- Main page container -->
+
+<div class="main">
+
+    <!-- Navigation link back to organization home page -->
+
+    <a class="back-link" href="{% url 'organization_home' %}">← Back to Organization Map</a>
+
+    <!-- Department title and summary text -->
+
+    <h1>{{ department.name }}</h1>
+    <p>Department overview, teams and dependency context.</p>
+
+    <!-- Top section contains summary card and statistics -->
+
+    <div class="top-section">
+
+        <!-- Department information card -->
+
+        <div class="summary-card">
+            <p><strong>Department Leader:</strong> {{ department.leader }}</p>
+            <p><strong>Specialisation:</strong> {{ department.specialisation }}</p>
+            <p><strong>Description:</strong> {{ department.description }}</p>
+        </div>
+
+        <!-- Right-side statistics showing totals -->
+
+        <div class="stats-side">
+
+            <!-- Number of teams in this department -->
+
+            <div class="stat-box">
+                <div class="stat-number">{{ teams|length }}</div>
+                <p>Teams</p>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-number">{{ dependencies|length }}</div>
+                <p>Dependencies</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <h2>Teams in this Department</h2>
+
+    <!-- Team cards grid -->
+
+    <div class="team-grid">
+
+        <!-- Loop through all teams linked to this department -->
+
+        {% for team in teams %}
+
+            <!-- Individual team card -->
+
+            <div class="team-card">
+                <h3>{{ team.name }}</h3>
+                <p><strong>Manager:</strong> {{ team.manager }}</p>
+                <p><strong>Type:</strong> {{ team.team_type.name }}</p>
+                <p><strong>Purpose:</strong> {{ team.purpose }}</p>
+            </div>
+        {% empty %}
+            <p>No teams in this department yet.</p>
+        {% endfor %}
+    </div>
+
+    <h2>Connected Dependencies</h2>
+
+    <!-- Connected dependency relationships -->
+
+    {% for dep in dependencies %}
+
+        <!-- Dependency card showing relationship between teams -->
+
+        <div class="dependency">
+            <strong>{{ dep.from_team.name }}</strong>
+            →
+            <strong>{{ dep.to_team.name }}</strong>
+            ({{ dep.dependency_type }})
+        </div>
+    {% empty %}
+        <p>No dependencies connected to this department yet.</p>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

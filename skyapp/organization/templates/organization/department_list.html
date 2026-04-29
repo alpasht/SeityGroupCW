@@ -1,0 +1,23 @@
+<!--
+Author: Mohammed Yousuf Moghal
+Student ID: w2073928
+Module: Organisation Module
+File: department_list.html
+-->
+
+<h1>Departments</h1>
+
+<form method="GET">
+    <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for dept in departments %}
+        <li>
+            <a href="{% url 'department_detail' dept.id %}">
+                {{ dept.name }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
