@@ -32,48 +32,36 @@
         <div class="card team-card h-100">
             <div class="card-body p-4">
                 <!-- Header -->
-                <div class="d-flex align-items-start mb-3">
-                    <div class="team-icon flex-shrink-0">
-                        <i class="bi bi-people-fill"></i>
+                <div class="d-flex align-items-center mb-4">
+                    <div class="team-icon flex-shrink-0 bg-primary bg-opacity-10 text-primary rounded p-3 me-3">
+                        <i class="bi bi-people-fill fs-4"></i>
                     </div>
-                    <div class="ms-3 flex-grow-1">
-                        <h5 class="card-title mb-1">{{ team.name }}</h5>
-                        <p class="text-primary mb-0 small">{{ team.department }}</p>
-                    </div>
-                </div>
-
-                <!-- Quick info -->
-                <div class="mb-3">
-                    <small class="text-muted">Manager:</small>
-                    <div class="fw-medium">{{ team.manager }}</div>
-                </div>
-
-                <div class="mb-3">
-                    <small class="text-muted">Team Size:</small>
-                    <div class="fw-medium">{{ team.members_count }} engineers</div>
-                </div>
-
-                <!-- Skills -->
-                <div class="mb-3">
-                    <small class="text-muted">Key Skills:</small>
-                    <div class="d-flex flex-wrap gap-1">
-                        {% for skill in team.get_skills_list %}
-                        <span class="badge bg-light text-dark border">{{ skill }}</span>
-                        {% endfor %}
+                    <div class="flex-grow-1">
+                        <h4 class="card-title mb-1 fw-bold">{{ team.name }}</h4>
+                        <span class="badge bg-secondary text-light">{{ team.department }}</span>
                     </div>
                 </div>
 
-                <!-- Dependencies -->
-                <div class="mb-4">
-                    <small class="text-muted d-block mb-1">Dependencies</small>
-                    <div class="d-flex gap-2">
-                        <span class="badge bg-success dependency-badge">
-                            ↑ {{ team.upstream_count }} upstream
-                        </span>
-                        <span class="badge bg-warning dependency-badge">
-                            ↓ {{ team.downstream_count }} downstream
-                        </span>
+                <!-- Quick Stats -->
+                <div class="d-flex justify-content-between mb-4 bg-dark bg-opacity-50 p-3 rounded border border-secondary">
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-0">{{ team.members_count }}</h5>
+                        <small class="text-muted">Engineers</small>
                     </div>
+                    <div class="text-center border-start border-secondary ps-3">
+                        <h5 class="fw-bold mb-0">{{ team.repositories|length }}</h5>
+                        <small class="text-muted">Repositories</small>
+                    </div>
+                </div>
+
+                <!-- Dependencies (Simple Badges) -->
+                <div class="mb-4 d-flex justify-content-center gap-2">
+                    <span class="badge rounded-pill bg-success bg-opacity-25 text-success border border-success px-3 py-2">
+                        <i class="bi bi-arrow-up-circle me-1"></i> {{ team.upstream_count }} Upstream
+                    </span>
+                    <span class="badge rounded-pill bg-warning bg-opacity-25 text-warning border border-warning px-3 py-2">
+                        <i class="bi bi-arrow-down-circle me-1"></i> {{ team.downstream_count }} Downstream
+                    </span>
                 </div>
 
                 <!-- Action buttons -->
