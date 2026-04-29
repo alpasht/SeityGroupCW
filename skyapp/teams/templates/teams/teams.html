@@ -78,7 +78,7 @@
 
                 <!-- Action buttons -->
                 <div class="d-flex gap-2 flex-wrap">
-                    <button onclick="emailTeam('{{ team.name }}', '{{ team.manager_email }}')"
+                    <button onclick="openEmailModal('{{ team.name }}', '{{ team.manager_email }}')"
                         class="btn btn-sm btn-outline-primary flex-grow-1">
                         <i class="bi bi-envelope me-1"></i>Email Team
                     </button>
@@ -185,8 +185,30 @@
         filterTeams(query);
     }
 
-    function emailTeam(name, email) {
-        window.location.href = `mailto:${email}?subject=Inquiry regarding ${name} team`;
+    let targetTeamName = '';
+    let targetManagerEmail = '';
+
+    function openEmailModal(name, email) {
+        targetTeamName = name;
+        targetManagerEmail = email;
+        document.getElementById('emailModalLabel').textContent = `Email ${name}`;
+        const modal = new bootstrap.Modal(document.getElementById('emailModal'));
+        modal.show();
+    }
+
+    function sendTeamEmail() {
+        const subject = document.getElementById('emailSubject').value;
+        const message = document.getElementById('emailMessage').value;
+
+        if (!subject || !message) {
+            alert('Please fill in both subject and message.');
+            return;
+        }
+
+        showToast(`Email sent to ${targetTeamName}!`);
+        const modal = bootstrap.Modal.getInstance(document.getElementById('emailModal'));
+        modal.hide();
+        document.getElementById('emailForm').reset();
     }
 
     let currentTeamName = '';
@@ -203,7 +225,7 @@
             alert('Please select a date and time');
             return;
         }
-        
+
         showToast(`Meeting invite sent to ${currentTeamName}!`);
         const modal = bootstrap.Modal.getInstance(document.getElementById('scheduleModal'));
         modal.hide();
@@ -211,9 +233,39 @@
 
     function showToast(msg) {
         document.getElementById('toastMessage').textContent = msg;
-        const toast = new bootstrap.Modal(document.getElementById('feedbackToast'));
-        const bsToast = new bootstrap.Toast(document.getElementById('feedbackToast'));
+        const toastEl = document.getElementById('feedbackToast');
+        const bsToast = new bootstrap.Toast(toastEl);
         bsToast.show();
     }
 </script>
+{% endblock %}
+
+{% block extra_content %}
+<!-- Email Team Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="emailModalLabel">Email Team</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="emailForm">
+                    <div class="mb-3">
+                        <label for="emailSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control bg-dark text-light border-secondary" id="emailSubject" placeholder="Enter subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailMessage" class="form-label">Message</label>
+                        <textarea class="form-control bg-dark text-light border-secondary" id="emailMessage" rows="5" placeholder="Enter your message"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="sendTeamEmail()">Send Email</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -85,8 +85,22 @@ def home(request):
 
 def teams(request):
     #Teams List Page
+    query = request.GET.get('q')
     mock_teams = get_mock_teams()
-    return render(request, 'teams/teams.html', {'teams': mock_teams})
+    
+    if query:
+        query = query.lower()
+        mock_teams = [
+            t for t in mock_teams 
+            if query in t.name.lower() or 
+               query in t.department.lower() or 
+               query in t.manager.lower()
+        ]
+        
+    return render(request, 'teams/teams.html', {
+        'teams': mock_teams,
+        'query': query
+    })
 
 
 def team_detail(request, id):
