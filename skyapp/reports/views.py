@@ -18,7 +18,9 @@ def reports_home(request):
     context = {
         "total_teams": total_teams,
         "teams_with_manager": teams_with_manager,
+        "teams_with_manager_count": teams_with_manager.count(),
         "teams_without_managers": teams_without_managers,
+        "teams_without_managers_count": teams_without_managers.count(),
         "all_teams": Team.objects.all(),
     }
     #Rendering the template with the data

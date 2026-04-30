@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
+from .models import Team
 
 # ===================== AUTHENTICATION VIEWS =====================
 
@@ -147,52 +148,55 @@ def get_mock_teams():
 # ===================== VIEWS =====================
 def dashboard(request):
     # Dashboard Overview Page
-    mock_teams = get_mock_teams()
+    teams_qs = Team.objects.all()
     
-    total_teams = len(mock_teams)
-    total_members = sum(t.members_count for t in mock_teams)
+    total_teams = teams_qs.count()
+    # To get total members across all teams, sum up the count of members
+    total_members = sum(t.members.count() for t in teams_qs)
     
     # Extract all unique repos
     all_repos = set()
-    for t in mock_teams:
-        for repo in t.repositories:
-            all_repos.add(repo)
+    for t in teams_qs:
+        if isinstance(t.code_repos, list):
+            for repo in t.code_repos:
+                all_repos.add(repo)
     total_repos = len(all_repos)
     
     return render(request, 'dashboard.html', {
         'total_teams': total_teams,
         'total_members': total_members,
         'total_repos': total_repos,
-        'recent_teams': mock_teams[:5]
+        'recent_teams': teams_qs[:5]
     })
 
 
 def teams(request):
     #Teams List Page
     query = request.GET.get('q')
-    mock_teams = get_mock_teams()
+    teams_qs = Team.objects.all()
     
     if query:
         query = query.lower()
-        mock_teams = [
-            t for t in mock_teams 
-            if query in t.name.lower() or 
-               query in t.department.lower() or 
-               query in t.manager.lower()
-        ]
+        # For a simple search, we can use icontains
+        teams_qs = teams_qs.filter(
+            name__icontains=query
+        ) | teams_qs.filter(
+            department__icontains=query
+        ) | teams_qs.filter(
+            manager__icontains=query
+        )
         
     return render(request, 'teams/teams.html', {
-        'teams': mock_teams,
+        'teams': teams_qs,
         'query': query
     })
 
 
 def team_detail(request, id):
     #Team Detail Page
-    mock_teams = get_mock_teams()
-    team = next((t for t in mock_teams if t.id == id), None)
-    
-    if not team:
+    try:
+        team = Team.objects.get(id=id)
+    except Team.DoesNotExist:
         return HttpResponse("Team not found", status=404)
     
     return render(request, 'teams/team_detail.html', {'team': team})
