@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from . import views
 
 urlpatterns = [
-    path('', views.dashboard, name='home'),
+    path('', RedirectView.as_view(pattern_name='login'), name='home'),
     path('dashboard/', views.dashboard, name='dashboard'),
     
     # Teams related URLs
