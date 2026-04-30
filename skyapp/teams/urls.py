@@ -18,8 +18,15 @@ urlpatterns = [
     path('login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     path('register/', views.RegisterView.as_view(), name='register'),
+    path('profile/edit/', views.profile_edit, name='profile_edit'),
     path('accounts/', include('django.contrib.auth.urls')), # Fallback for password change, etc.
     
     path('reports/', include('skyapp.reports.urls')),
     path('admin/', admin.site.urls),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
