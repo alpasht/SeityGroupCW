@@ -66,11 +66,17 @@
                     <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#"
                         role="button" data-bs-toggle="dropdown">
                         {% if user.profile.profile_picture %}
+<<<<<<< HEAD
                         <img src="{{ user.profile.profile_picture.url }}" alt="User" class="rounded-circle me-2"
                             width="32" height="32" style="object-fit: cover;">
                         {% else %}
                         <img src="https://i.pravatar.cc/32?u={{ user.username }}" alt="User" class="rounded-circle me-2"
                             width="32" height="32">
+=======
+                            <img src="{{ user.profile.profile_picture.url }}" alt="User" class="rounded-circle me-2" width="32" height="32" style="object-fit: cover;">
+                        {% else %}
+                            <img src="https://i.pravatar.cc/32?u={{ user.username }}" alt="User" class="rounded-circle me-2" width="32" height="32">
+>>>>>>> abe466dba00dd0e8f1060a73956337a40f20fd51
                         {% endif %}
                         <span class="d-none d-md-inline">{{ user.get_full_name|default:user.username }}</span>
                     </a>
