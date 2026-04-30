@@ -6,7 +6,7 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 fw-bold text-light">Engineering Dashboard</h1>
-    <div class="text-muted">Welcome back, Alex Rivera</div>
+    <div class="text-muted">Welcome back, {{ user.get_full_name|default:user.username }}</div>
 </div>
 
 <!-- Quick Stats -->
@@ -86,7 +86,8 @@
                     <tbody>
                         {% for team in recent_teams %}
                         <tr>
-                            <td><a href="{% url 'team_detail' team.id %}" class="text-decoration-none text-light fw-bold">{{ team.name }}</a></td>
+                            <td><a href="{% url 'team_detail' team.id %}"
+                                    class="text-decoration-none text-light fw-bold">{{ team.name }}</a></td>
                             <td><span class="badge bg-secondary opacity-75">{{ team.department }}</span></td>
                             <td>{{ team.manager }}</td>
                             <td><span class="badge bg-success">Active</span></td>

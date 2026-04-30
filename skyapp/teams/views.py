@@ -4,7 +4,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from .forms import UserRegistrationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 
 # ===================== AUTHENTICATION VIEWS =====================
 
@@ -34,6 +36,25 @@ class RegisterView(CreateView):
             return redirect('dashboard')
         return super().dispatch(request, *args, **kwargs)
 
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('profile_edit')
+    else:
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+        
+    return render(request, 'registration/profile_edit.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
 
 # ===================== IMPROVED MOCK TEAM CLASS =====================
 class MockTeam:

@@ -15,11 +15,13 @@
         body.unauthenticated .sidebar {
             display: none !important;
         }
+
         body.unauthenticated .main-content {
             margin-left: 0 !important;
             padding-left: 0 !important;
             padding-top: 60px;
         }
+
         body.unauthenticated .sky-navbar {
             z-index: 1050;
         }
@@ -55,19 +57,25 @@
                 <!-- Notifications -->
                 <button class="btn position-relative text-white" onclick="toggleNotifications()">
                     <i class="bi bi-bell fs-4"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
                 </button>
 
                 <!-- User avatar -->
                 <div class="dropdown">
                     <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" href="#"
                         role="button" data-bs-toggle="dropdown">
-                        <img src="https://i.pravatar.cc/32?u={{ user.username }}" alt="User" class="rounded-circle me-2" width="32" height="32">
+                        {% if user.profile.profile_picture %}
+                        <img src="{{ user.profile.profile_picture.url }}" alt="User" class="rounded-circle me-2"
+                            width="32" height="32" style="object-fit: cover;">
+                        {% else %}
+                        <img src="https://i.pravatar.cc/32?u={{ user.username }}" alt="User" class="rounded-circle me-2"
+                            width="32" height="32">
+                        {% endif %}
                         <span class="d-none d-md-inline">{{ user.get_full_name|default:user.username }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile_edit' %}">Profile Settings</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
